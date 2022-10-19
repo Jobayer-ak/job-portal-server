@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
-const { signupService } = require("../services/user.services");
+const { signupService, findUserByEmail } = require("../services/user.services");
+const { generateToken } = require("../utils/token");
 
 // signup
 exports.signup = async (req, res) => {
@@ -50,19 +51,26 @@ exports.login = async (req, res) => {
     };
 
     // generate token 
+    const token = generateToken(user);
+
+    const {password: pwd, ...others} = user.toObject();
+
 
     res.status(200).json({
       status: "Success",
       message: "Successfully loggedin",
       data: {
-        user: isObjectIdOrHexString,
+        user: others,
         token,
       },
     });
   } catch (error) {
     res.status(500).json({
       status: "Failed",
-      error,
+      error: error.message,
     });
   }
 };
+
+
+// get me 
