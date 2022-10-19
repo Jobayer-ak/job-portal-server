@@ -48,13 +48,12 @@ exports.login = async (req, res) => {
         status: "Failed",
         error: "Password is not correct!",
       });
-    };
+    }
 
-    // generate token 
+    // generate token
     const token = generateToken(user);
 
-    const {password: pwd, ...others} = user.toObject();
-
+    const { password: pwd, ...others } = user.toObject();
 
     res.status(200).json({
       status: "Success",
@@ -72,5 +71,20 @@ exports.login = async (req, res) => {
   }
 };
 
+// get me
+exports.getMe = async (req, res) => {
+  try {
+    const user = await findUserByEmail(req.user.email);
+    console.log(user);
 
-// get me 
+    res.status(200).json({
+      status: "Success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      error: error.message,
+    });
+  }
+};
