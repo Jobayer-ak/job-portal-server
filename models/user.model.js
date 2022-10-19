@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 
-const userSchema = mongoose.userSchema(
+const userSchema = mongoose.Schema(
   {
     firstName: {
       type: String,
@@ -45,8 +45,10 @@ const userSchema = mongoose.userSchema(
       type: String,
       required: [true, "Please confirm your password"],
       validate: {
-        validator: (value) => value === this.password,
-        message: "Password doesn't match",
+        validator: function (value) {
+          return value === this.password;
+        },
+        message: "Passwords doesn't match!",
       },
     },
     contactNumber: {
@@ -64,7 +66,7 @@ const userSchema = mongoose.userSchema(
     },
     role: {
       type: String,
-      enum: ["admin, candidate, hiringmanager"],
+      enum: ["admin", "candidate", "hiring-manager"],
       default: "candidate",
     },
   },

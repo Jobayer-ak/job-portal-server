@@ -13,10 +13,13 @@ app.use(express.json());
 app.use(cors());
 
 // routes
-
+const userRoute = require("./routes/user.route");
 
 // database connection
 databaseConnection();
+
+// api call
+app.use("/api/v1/user", userRoute);
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`.yellow.bold);
