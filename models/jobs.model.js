@@ -34,7 +34,7 @@ const jobsSchema = mongoose.Schema(
     },
     salary: {
       type: Number,
-      required: true,
+      required: [true, "Salaray is required"],
       min: [0, "Salary cannot be negative"],
     },
     deadline: {
@@ -42,22 +42,13 @@ const jobsSchema = mongoose.Schema(
       required: true,
     },
     postedBy: {
-      name: {
-        type: String,
-        required: true,
-      },
-      id: {
-        type: ObjectId,
-        ref: "User",
-        required: true,
-      },
+      type: ObjectId,
     },
     appliedCandidates: [
       {
         applicantId: {
           type: ObjectId,
           ref: "User",
-          
         },
       },
     ],
