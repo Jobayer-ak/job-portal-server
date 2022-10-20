@@ -66,8 +66,12 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["admin", "candidate", "hiring-manager"],
-      default: "candidate",
+      required: true,
+      enum: {
+        values: ["candidate", "hiring-manager"],
+        message:
+          "role value cannot be {VALUE}, must be either candidate or hiring-manager",
+      },
     },
   },
   { timestamps: true }

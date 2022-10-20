@@ -75,7 +75,7 @@ exports.login = async (req, res) => {
 exports.getMe = async (req, res) => {
   try {
     const user = await findUserByEmail(req.user.email);
-    console.log(user);
+    // console.log(user);
 
     res.status(200).json({
       status: "Success",
