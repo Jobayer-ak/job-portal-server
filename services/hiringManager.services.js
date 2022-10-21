@@ -10,6 +10,14 @@ exports.getAllJobsService = async (email) => {
   const { _id } = await User.findOne({ email });
 
   const jobs = await Job.find({ postedBy: _id });
-
+  
   return jobs;
 };
+ 
+exports.getJobByIdService = async (email,id) =>{
+  const { _id } = await User.findOne({ email });
+
+  const jobs = await Job.find({ postedBy: _id });
+  const job = await Job.findOne({_id: id});
+  return job;
+}

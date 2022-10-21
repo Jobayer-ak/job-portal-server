@@ -18,4 +18,11 @@ router.post(
   hiringManagerController.postJob
 );
 
+router.get(
+  "/manager/jobs/:id",
+  verifyToken,
+  authorization("hiring-manager"),
+  hiringManagerController.getJobById
+);
+
 module.exports = router;
