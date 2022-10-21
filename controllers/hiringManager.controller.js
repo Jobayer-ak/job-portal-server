@@ -24,7 +24,7 @@ exports.postJob = async (req, res) => {
 // get all jobs by manager id
 exports.getAllJobs = async (req, res) => {
   try {
-    const jobs = await getAllJobsService(req.user.email);
+    const jobs = await getAllJobsService(req.user._id);
 
     res.status(200).json({
       status: "Success",
@@ -41,10 +41,19 @@ exports.getAllJobs = async (req, res) => {
 // get job with id
 exports.getJobById = async (req, res) => {
   try {
+    const { id } = req.params;
 
-    const {id} = req.params;
+    const job = await getJobByIdService(req.user._id, id);
 
-    const job = await getJobByIdService(req.user.email,id);
+    console.log(job.postedBy + " ----> " + req.user._id);
+
+    if (job.postedBy.toString() !== req.user._id.toString()) {
+      return res.status(404).json({
+        status: "Failed",
+        message: "You didn't post this job!",
+      });
+    }
+
     res.status(200).json({
       status: "Success",
       jobs: job,

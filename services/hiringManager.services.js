@@ -6,18 +6,16 @@ exports.postJobService = async (jobInfo) => {
   return job;
 };
 
-exports.getAllJobsService = async (email) => {
-  const { _id } = await User.findOne({ email });
+exports.getAllJobsService = async (userId) => {
+  const { _id } = await User.findOne({ _id: userId });
 
   const jobs = await Job.find({ postedBy: _id });
-  
+
   return jobs;
 };
- 
-exports.getJobByIdService = async (email,id) =>{
-  const { _id } = await User.findOne({ email });
 
-  const jobs = await Job.find({ postedBy: _id });
-  const job = await Job.findOne({_id: id});
+exports.getJobByIdService = async (userId, jobId) => {
+  const job = await Job.findOne({_id: jobId});
   return job;
-}
+};
+

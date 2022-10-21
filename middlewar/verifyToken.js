@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
+const User = require("../models/user.model");
+const { findUserByEmail } = require("../services/user.services");
 
 module.exports = async (req, res, next) => {
   try {
@@ -17,7 +19,9 @@ module.exports = async (req, res, next) => {
       process.env.TOKEN_SECRET
     );
 
-    req.user = decodedData;
+    const user = await findUserByEmail(decodedData.email);
+
+    req.user = user;
     next();
   } catch (error) {
     res.status(403).json({
