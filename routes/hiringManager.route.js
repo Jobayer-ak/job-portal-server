@@ -11,12 +11,19 @@ router.get(
   authorization("hiring-manager"),
   hiringManagerController.getAllJobs
 );
-router.post(
-  "/jobs",
-  verifyToken,
-  authorization("hiring-manager"),
-  hiringManagerController.postJob
-);
+router
+  .post(
+    "/jobs",
+    verifyToken,
+    authorization("hiring-manager"),
+    hiringManagerController.postJob
+  )
+  .patch(
+    "/jobs/:id",
+    verifyToken,
+    authorization("hiring-manager"),
+    hiringManagerController.updateJob
+  );
 
 router.get(
   "/manager/jobs/:id",

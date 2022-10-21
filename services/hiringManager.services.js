@@ -14,8 +14,19 @@ exports.getAllJobsService = async (userId) => {
   return jobs;
 };
 
-exports.getJobByIdService = async (userId, jobId) => {
-  const job = await Job.findOne({_id: jobId});
+exports.getJobByIdService = async (jobId) => {
+  const job = await Job.findOne({ _id: jobId });
   return job;
 };
 
+exports.updateJobById = async (data, userId, jobId) => {
+  const job = await Job.findOne({ postedBy: userId });
+
+console.log(job);
+
+  const updatedJob = await Job.updateOne({ _id: jobId }, data, {
+    runValidators: true,
+  });
+
+  // return updatedJob;
+};

@@ -28,6 +28,7 @@ const userSchema = mongoose.Schema(
     },
     password: {
       type: String,
+      trim: true,
       required: [true, "Password is required"],
       validate: {
         validator: (value) =>
@@ -43,6 +44,7 @@ const userSchema = mongoose.Schema(
     },
     confirmPassword: {
       type: String,
+      trim: true,
       required: [true, "Please confirm your password"],
       validate: {
         validator: function (value) {
@@ -66,12 +68,12 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      required: true,
       enum: {
-        values: ["candidate", "hiring-manager"],
+        values: ["candidate", "hiring-manager", "admin"],
         message:
-          "role value cannot be {VALUE}, must be either candidate or hiring-manager",
+          "role value cannot be {VALUE}",
       },
+      default: "candidate",
     },
   },
   { timestamps: true }

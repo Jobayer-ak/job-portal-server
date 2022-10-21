@@ -2,6 +2,7 @@ const {
   postJobService,
   getAllJobsService,
   getJobByIdService,
+  updateJobById,
 } = require("../services/hiringManager.services");
 
 // creating job
@@ -43,9 +44,7 @@ exports.getJobById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const job = await getJobByIdService(req.user._id, id);
-
-    console.log(job.postedBy + " ----> " + req.user._id);
+    const job = await getJobByIdService(id);
 
     if (job.postedBy.toString() !== req.user._id.toString()) {
       return res.status(404).json({
@@ -57,6 +56,25 @@ exports.getJobById = async (req, res) => {
     res.status(200).json({
       status: "Success",
       jobs: job,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      error: error.message,
+    });
+  }
+};
+
+// update specific job
+exports.updateJob = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const updatedJob = await updateJobById(req.body,req.user._id, id);
+
+    res.status(200).json({
+      status: "Success",
+      // jobs: updatedJob,
     });
   } catch (error) {
     res.status(500).json({
