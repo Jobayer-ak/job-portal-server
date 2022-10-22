@@ -6,4 +6,7 @@ const verifyToken = require("../middlewar/verifyToken");
 
 router.get("/jobs",verifyToken, authorization("candidate"), candidateControllers.getAllJobs)
 
+router.get("/jobs/:id", verifyToken, authorization("candidate"), candidateControllers.getJobById
+)
+
 module.exports = router;

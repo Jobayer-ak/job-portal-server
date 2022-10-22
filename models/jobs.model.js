@@ -43,6 +43,7 @@ const jobsSchema = mongoose.Schema(
     },
     postedBy: {
       type: ObjectId,
+      ref: "User",
     },
     appliedCandidates: [
       {
