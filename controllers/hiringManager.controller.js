@@ -70,11 +70,18 @@ exports.updateJob = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const updatedJob = await updateJobById(req.body,req.user._id, id);
+    const updatedJob = await updateJobById(req.body, req.user._id, id);
+
+    if (!updatedJob.modifiedCount) {
+      return res.status(400).json({
+        status: "Failed",
+        message: "Couldn't update the job!",
+      });
+    }
 
     res.status(200).json({
       status: "Success",
-      // jobs: updatedJob,
+      message: "Successfully updated the job!",
     });
   } catch (error) {
     res.status(500).json({

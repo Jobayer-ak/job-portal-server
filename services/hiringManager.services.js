@@ -20,13 +20,15 @@ exports.getJobByIdService = async (jobId) => {
 };
 
 exports.updateJobById = async (data, userId, jobId) => {
-  const job = await Job.findOne({ postedBy: userId });
+  const job = await Job.findOne({ _id: jobId });
+  let updatedJob = {};
+ 
+  if (job.postedBy.toString() === userId.toString()) {
+    console.log("Matched");
+    updatedJob = await Job.updateOne({ _id: jobId }, data, {
+      runValidators: true,
+    });
+  }
 
-console.log(job);
-
-  const updatedJob = await Job.updateOne({ _id: jobId }, data, {
-    runValidators: true,
-  });
-
-  // return updatedJob;
+  return updatedJob;
 };

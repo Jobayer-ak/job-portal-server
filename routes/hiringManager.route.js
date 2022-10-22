@@ -8,7 +8,7 @@ const { route } = require("./user.route");
 router.get(
   "/manager/jobs",
   verifyToken,
-  authorization("hiring-manager"),
+  authorization("hiring-manager"), 
   hiringManagerController.getAllJobs
 );
 router
