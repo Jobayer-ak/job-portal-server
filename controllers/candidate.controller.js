@@ -1,8 +1,10 @@
 const {
   getAllJobsService,
   getJobByIdService,
+  applyAJobService,
 } = require("../services/candidate.services");
 
+// get all jobs
 exports.getAllJobs = async (req, res) => {
   try {
     let filters = { ...req.query };
@@ -65,18 +67,30 @@ exports.getJobById = async (req, res) => {
   }
 };
 
-// apply job
-exports.applyJob = async (req, res) =>{
+// apply a job
+exports.applyAJob = async (req, res) => {
   try {
-    
-    res.status(200).json({
-      status: "Success",
-      job: job,
-    });
+    const { id } = req.params;
+
+    const candidateId = req.user._id;
+
+    const appliedJob = await applyAJobService(id, candidateId);
+
+    if (appliedJob) {
+      return res.status(400).json({
+        status: "Failed",
+        message: "You already applied this job!",
+      });
+    } else {
+      return res.status(200).json({
+        status: "Success",
+        appliedJob: "Successfully You Applied This Job!",
+      });
+    }
   } catch (error) {
     res.status(500).json({
       status: "Failed",
       error: error.message,
     });
   }
-}
+};
