@@ -76,6 +76,13 @@ exports.applyAJob = async (req, res) => {
 
     const appliedJob = await applyAJobService(id, candidateId);
 
+    if(appliedJob === "over"){
+      return res.status(400).json({
+        status: "Failed",
+        message: "Applying date is over. You cannot apply this job!",
+      })
+    }
+
     if (appliedJob) {
       return res.status(400).json({
         status: "Failed",

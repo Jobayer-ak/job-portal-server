@@ -30,6 +30,13 @@ exports.applyAJobService = async (jobId, candidateId) => {
 
   let applyStatus;
 
+  const todayDate = new Date();
+  console.log(`today date: ${todayDate} ---> apply deadline: ${checkAppliedUser.deadline}`);
+
+  if(todayDate > checkAppliedUser.deadline){
+    return applyStatus = "over";
+  }
+
   if (checkAppliedUser.appliedCandidates.length == 0) {
     await Job.findByIdAndUpdate(
       jobId,
@@ -43,6 +50,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
   } else {
     checkAppliedUser.appliedCandidates.forEach(async (candidate) => {
       console.log(candidate + " --> " + candidateId);
+      
       if (candidateId.toString() === candidate.toString()) {
         console.log("matched");
         return (applyStatus = true);
