@@ -28,25 +28,28 @@ exports.getJobByIdService = async (jobId) => {
 exports.applyAJobService = async (jobId, candidateId) => {
   const checkAppliedUser = await Job.findById(jobId);
 
-  let applyStatus = true;
+  let applyStatus;
 
-  if (checkAppliedUser.appliedCandidates.length === 0) {
+  if (checkAppliedUser.appliedCandidates.length == 0) {
     await Job.findByIdAndUpdate(
       jobId,
       { $push: { appliedCandidates: candidateId } },
       {
         runValidators: true,
+        new: true,
       }
     );
     return (applyStatus = false);
   } else {
-    checkAppliedUser.appliedCandidates.forEach((candidate) => {
+    checkAppliedUser.appliedCandidates.forEach(async (candidate) => {
+      console.log(candidate + " --> " + candidateId);
       if (candidateId.toString() === candidate.toString()) {
+        console.log("matched");
         return (applyStatus = true);
       } else {
-        Job.findByIdAndUpdate(
+        await Job.findByIdAndUpdate(
           jobId,
-          { $push: { appliedCandidates: candidateId } },
+          { $addToSet: { appliedCandidates: candidateId } },
           {
             runValidators: true,
           }
