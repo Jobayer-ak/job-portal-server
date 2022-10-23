@@ -1,4 +1,7 @@
-const { getAllJobsService, getJobByIdService } = require("../services/candidate.services");
+const {
+  getAllJobsService,
+  getJobByIdService,
+} = require("../services/candidate.services");
 
 exports.getAllJobs = async (req, res) => {
   try {
@@ -10,7 +13,7 @@ exports.getAllJobs = async (req, res) => {
       /\b(gt|gte|lt|lte)\b/g,
       (match) => `$${match}`
     );
-      
+
     console.log(filtersString);
 
     filters = JSON.parse(filtersString);
@@ -44,13 +47,28 @@ exports.getAllJobs = async (req, res) => {
 };
 
 // get specific job with id
-exports.getJobById = async(req, res) =>{
+exports.getJobById = async (req, res) => {
   try {
-
-    const {id} = req.params;
+    const { id } = req.params;
 
     const job = await getJobByIdService(id);
 
+    res.status(200).json({
+      status: "Success",
+      job: job,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      error: error.message,
+    });
+  }
+};
+
+// apply job
+exports.applyJob = async (req, res) =>{
+  try {
+    
     res.status(200).json({
       status: "Success",
       job: job,
