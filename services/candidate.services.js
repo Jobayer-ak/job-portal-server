@@ -48,7 +48,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
     return (applyStatus = false);
   } else {
     checkAppliedUser.appliedCandidates.forEach(async (candidate) => {
-      console.log(candidate + " --> " + candidateId);
+      // console.log(candidate + " --> " + candidateId);
 
       if (candidateId.toString() === candidate.toString()) {
         console.log("matched");

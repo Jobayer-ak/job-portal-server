@@ -16,6 +16,7 @@ app.use(cors());
 const userRoute = require("./routes/user.route");
 const hiringManagerRoute = require("./routes/hiringManager.route");
 const candidateRoute = require("./routes/candidate.route");
+const adminRoute = require("./routes/admin.route");
 
 // database connection
 databaseConnection();
@@ -24,6 +25,7 @@ databaseConnection();
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/", hiringManagerRoute);
 app.use("/api/v1/", candidateRoute);
+app.use("/api/v1/admin", adminRoute);
 
 app.listen(port, () => {
   console.log(`App is running on port ${port}`.yellow.bold);

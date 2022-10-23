@@ -59,6 +59,7 @@ const userSchema = mongoose.Schema(
         validator.isMobilePhone,
         "Please provide a valid contact number!",
       ],
+      required: true,
     },
     shippingAddress: String,
 
@@ -70,8 +71,7 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: {
         values: ["candidate", "hiring-manager", "admin"],
-        message:
-          "role value cannot be {VALUE}",
+        message: "role value cannot be {VALUE}",
       },
       default: "candidate",
     },
