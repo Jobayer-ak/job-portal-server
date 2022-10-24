@@ -28,9 +28,16 @@ exports.getACandidateById = async (req, res) => {
     const { id } = req.params;
     const candidate = await getACandidateByIdService(id);
 
-    res.status(200).json({
-      status: "Success",
-      candidate,
+    if (candidate.role === "candidate") {
+      return res.status(200).json({
+        status: "Success",
+        candidate,
+      });
+    }
+
+    res.status(404).json({
+      status: "Failed",
+      message: "This is not candidate!",
     });
   } catch (error) {
     res.status(500).json({
