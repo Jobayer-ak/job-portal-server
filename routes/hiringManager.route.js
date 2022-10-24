@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const hiringManagerController = require("../controllers/hiringManager.controller");
-const authorization = require("../middlewar/authorization");
-const verifyToken = require("../middlewar/verifyToken");
+const authorization = require("../middlewares/authorization");
+const verifyToken = require("../middlewares/verifyToken");
 const { route } = require("./user.route");
 
 router.get(
