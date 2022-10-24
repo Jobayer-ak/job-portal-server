@@ -49,12 +49,12 @@ exports.applyAJobService = async (jobId, candidateId) => {
       },
       { runValidators: true }
     );
-    console.log("Hello");
+   
     return (applyStatus = false);
   } else {
     applicant.appliedJobs.forEach(async (job) => {
       if (job.toString() === jobId.toString()) {
-        console.log("Hi");
+        
         return (applyStatus = true);
       } else {
         await User.findByIdAndUpdate(
@@ -64,7 +64,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
           },
           { runValidators: true }
         );
-        console.log("hey");
+       
         return (applyStatus = false);
       }
     });
@@ -85,7 +85,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
       // console.log(candidate + " --> " + candidateId);
 
       if (candidateId.toString() === candidate.toString()) {
-        console.log("matched");
+        
         return (applyStatus = true);
       } else {
         await Job.findByIdAndUpdate(

@@ -18,6 +18,18 @@ exports.getACandidateByIdService = async (candidateId) => {
 
 // get all hiring manager
 exports.getAllHiringManagerService = async () => {
-  const managers = await User.find({role: "hiring-manager"}, "-appliedJobs -password");
+  const managers = await User.find(
+    { role: "hiring-manager" },
+    "-appliedJobs -password"
+  );
   return managers;
+};
+
+// update user role to hiring manager
+exports.updateUserToHManagerService = async (userId, data) => {
+  const updatedRole = await User.updateOne({ _id: userId }, data, {
+    runValidators: true,
+  });
+
+  return updatedRole;
 };
