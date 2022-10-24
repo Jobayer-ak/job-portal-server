@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Job = require("../models/jobs.model");
+const User = require("../models/user.model");
 const ObjectId = mongoose.Types.ObjectId;
 
 // get all jobs
@@ -24,25 +25,58 @@ exports.getJobByIdService = async (jobId) => {
   return job;
 };
 
-// appy a job
+// apply a job
 exports.applyAJobService = async (jobId, candidateId) => {
   const checkAppliedUser = await Job.findById(jobId);
 
   let applyStatus;
 
+  // check date remains or not
   const todayDate = new Date();
 
   if (todayDate > checkAppliedUser.deadline) {
     return (applyStatus = "over");
   }
 
+  // store applied job's id
+  const applicant = await User.findById(candidateId);
+
+  if (applicant.appliedJobs.length == 0) {
+    await User.findByIdAndUpdate(
+      candidateId,
+      {
+        $push: { appliedJobs: jobId },
+      },
+      { runValidators: true }
+    );
+    console.log("Hello");
+    return (applyStatus = false);
+  } else {
+    applicant.appliedJobs.forEach(async (job) => {
+      if (job.toString() === jobId.toString()) {
+        console.log("Hi");
+        return (applyStatus = true);
+      } else {
+        await User.findByIdAndUpdate(
+          candidateId,
+          {
+            $addToSet: { appliedJobs: jobId },
+          },
+          { runValidators: true }
+        );
+        console.log("hey");
+        return (applyStatus = false);
+      }
+    });
+  }
+
+  // store applied candidate's id
   if (checkAppliedUser.appliedCandidates.length == 0) {
     await Job.findByIdAndUpdate(
       jobId,
       { $push: { appliedCandidates: candidateId } },
       {
         runValidators: true,
-        new: true,
       }
     );
     return (applyStatus = false);

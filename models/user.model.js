@@ -76,10 +76,12 @@ const userSchema = mongoose.Schema(
       },
       default: "candidate",
     },
-    appliedJobs: [{ 
-      type: ObjectId,
-      ref: "Job"
-    }],
+    appliedJobs: [
+      {
+        type: ObjectId,
+        ref: "Job",
+      },
+    ],
   },
   { timestamps: true }
 );
