@@ -1,4 +1,8 @@
-const { getAllCandidatesService, getACandidateByIdService } = require("../services/admin.services");
+const {
+  getAllCandidatesService,
+  getACandidateByIdService,
+  getAllHiringManagerService,
+} = require("../services/admin.services");
 
 // get all candidates
 exports.getAllCandidates = async (req, res) => {
@@ -20,12 +24,30 @@ exports.getAllCandidates = async (req, res) => {
 // get a candidate by id
 exports.getACandidateById = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const candidate = await getACandidateByIdService(id);
 
     res.status(200).json({
       status: "Success",
       candidate,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "Failed",
+      error: error.message,
+    });
+  }
+};
+
+// get all hiring manager
+exports.getAllHiringManager = async (req, res) => {
+  try {
+
+    const hiringManagers = await getAllHiringManagerService();
+
+    res.status(200).json({
+      status: "Success",
+      hiringManagers,
     });
   } catch (error) {
     res.status(500).json({
