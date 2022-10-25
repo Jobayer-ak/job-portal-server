@@ -51,6 +51,12 @@ const jobsSchema = mongoose.Schema(
         ref: "User"
       }
     ],
+    company: {
+      type: String,
+      required: true,
+      minLength: [4, "Company name at least 4 characters!"],
+      maxLength: [60, "Company name is too large!"],
+    }
   },
   {
     timestamps: true,
