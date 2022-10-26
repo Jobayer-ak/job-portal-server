@@ -2,6 +2,7 @@ const {
   getAllJobsService,
   getJobByIdService,
   applyAJobService,
+  uploadResumeService,
 } = require("../services/candidate.services");
 
 // get all jobs
@@ -76,11 +77,11 @@ exports.applyAJob = async (req, res) => {
 
     const appliedJob = await applyAJobService(id, candidateId);
 
-    if(appliedJob === "over"){
+    if (appliedJob === "over") {
       return res.status(400).json({
         status: "Failed",
         message: "Applying date is over. You cannot apply this job!",
-      })
+      });
     }
 
     if (appliedJob) {
@@ -98,6 +99,21 @@ exports.applyAJob = async (req, res) => {
     res.status(500).json({
       status: "Failed",
       error: error.message,
+    });
+  }
+};
+
+// resume upload
+exports.uploadResume = async (req, res) => {
+  try {
+    const candidateId = req.user._id;
+    const resume = await uploadResumeService(candidateId, req.file.filename);
+    console.log(req.file.filename)
+    return res.status(200).json(req.file);
+  } catch (error) {
+    res.status(400).json({
+      status: "Failed",
+      error: error.message + "Problem",
     });
   }
 };

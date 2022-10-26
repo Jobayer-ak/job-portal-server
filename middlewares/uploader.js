@@ -4,21 +4,21 @@ const path = require("path");
 const storage = multer.diskStorage({
   destination: "resumes/",
   filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e5);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e4);
     cb(null, uniqueSuffix + "-" + file.originalname);
   },
 });
 
 const uploader = multer({
   storage: storage,
-  fileFilter: (req, res, cb) => {
-    const supportedFile = /pdf|docx/;
+  fileFilter: (req, file, cb) => {
+    const supportedImage = /pdf|docx/;
     const extension = path.extname(file.originalname);
 
-    if (supportedFile.test(extension)) {
+    if (supportedImage.test(extension)) {
       cb(null, true);
     } else {
-      cb(new Error("Must be a pdf or docx file"));
+      cb(new Error("Must be a pdf or docx file!"));
     }
   },
   limits: {

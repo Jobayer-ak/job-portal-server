@@ -1,7 +1,10 @@
+const multer = require("multer");
 const mongoose = require("mongoose");
+const uploader = require("../middlewares/uploader");
 const Job = require("../models/jobs.model");
 const User = require("../models/user.model");
 const ObjectId = mongoose.Types.ObjectId;
+const path = require("path");
 
 // get all jobs
 exports.getAllJobsService = async (filters, queries) => {
@@ -49,12 +52,11 @@ exports.applyAJobService = async (jobId, candidateId) => {
       },
       { runValidators: true }
     );
-   
+
     return (applyStatus = false);
   } else {
     applicant.appliedJobs.forEach(async (job) => {
       if (job.toString() === jobId.toString()) {
-        
         return (applyStatus = true);
       } else {
         await User.findByIdAndUpdate(
@@ -64,7 +66,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
           },
           { runValidators: true }
         );
-       
+
         return (applyStatus = false);
       }
     });
@@ -72,6 +74,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
 
   // store applied candidate's id
   if (checkAppliedUser.appliedCandidates.length == 0) {
+    uploader.single("image");
     await Job.findByIdAndUpdate(
       jobId,
       { $push: { appliedCandidates: candidateId } },
@@ -79,13 +82,12 @@ exports.applyAJobService = async (jobId, candidateId) => {
         runValidators: true,
       }
     );
+
     return (applyStatus = false);
   } else {
     checkAppliedUser.appliedCandidates.forEach(async (candidate) => {
-      // console.log(candidate + " --> " + candidateId);
-
-      if (candidateId.toString() === candidate.toString()) {
-        
+      if (candidateId.toString() == candidate.toString()) {
+        console.log(candidate + " --> " + candidateId);
         return (applyStatus = true);
       } else {
         await Job.findByIdAndUpdate(
@@ -102,4 +104,17 @@ exports.applyAJobService = async (jobId, candidateId) => {
   }
 
   return applyStatus;
+};
+
+// upload resume service
+exports.uploadResumeService = async (candidateId, resumeString) => {
+  const result = await User.findByIdAndUpdate(
+    candidateId,
+    {resume: resumeString},
+    { runValidators: true }
+  );
+
+  console.log(result);
+
+  return result;
 };

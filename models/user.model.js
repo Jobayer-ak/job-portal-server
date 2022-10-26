@@ -62,12 +62,7 @@ const userSchema = mongoose.Schema(
       ],
       required: true,
     },
-    shippingAddress: String,
-
-    imageURL: {
-      type: String,
-      validate: [validator.isURL, "Please provide a valid url"],
-    },
+    resume: { type: String },
     role: {
       type: String,
       enum: {
