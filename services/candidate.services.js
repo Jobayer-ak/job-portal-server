@@ -1,6 +1,6 @@
 // const multer = require("multer");
 const mongoose = require("mongoose");
-const uploader = require("../middlewares/uploader");
+// const uploader = require("../middlewares/uploader");
 const Job = require("../models/jobs.model");
 const User = require("../models/user.model");
 const ObjectId = mongoose.Types.ObjectId;
@@ -74,7 +74,7 @@ exports.applyAJobService = async (jobId, candidateId) => {
 
   // store applied candidate's id
   if (checkAppliedUser.appliedCandidates.length == 0) {
-    uploader.single("image");
+   
     await Job.findByIdAndUpdate(
       jobId,
       { $push: { appliedCandidates: candidateId } },

@@ -28,7 +28,6 @@ router.post(
   "/jobs/:id/apply",
   verifyToken,
   authorization("candidate"),
-  uploader.single("pdf"),
   candidateControllers.applyAJob
 );
 
