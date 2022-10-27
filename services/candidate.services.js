@@ -1,10 +1,10 @@
-const multer = require("multer");
+// const multer = require("multer");
 const mongoose = require("mongoose");
 const uploader = require("../middlewares/uploader");
 const Job = require("../models/jobs.model");
 const User = require("../models/user.model");
 const ObjectId = mongoose.Types.ObjectId;
-const path = require("path");
+// const path = require("path");
 
 // get all jobs
 exports.getAllJobsService = async (filters, queries) => {
@@ -107,14 +107,14 @@ exports.applyAJobService = async (jobId, candidateId) => {
 };
 
 // upload resume service
-exports.uploadResumeService = async (candidateId, resumeString) => {
-  const result = await User.findByIdAndUpdate(
-    candidateId,
-    {resume: resumeString},
-    { runValidators: true }
-  );
+// exports.uploadResumeService = async (candidateId, resumeString) => {
+//   const result = await User.findByIdAndUpdate(
+//     candidateId,
+//     {resume: resumeString},
+//     { runValidators: true }
+//   );
 
-  console.log(result);
+//   console.log(result);
 
-  return result;
-};
+//   return result;
+// };
