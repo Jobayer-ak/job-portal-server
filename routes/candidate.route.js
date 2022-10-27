@@ -6,6 +6,8 @@ const authorization = require("../middlewares/authorization");
 const uploader = require("../middlewares/uploader");
 const verifyToken = require("../middlewares/verifyToken");
 
+
+
 router.get(
   "/jobs",
   verifyToken,
@@ -20,7 +22,7 @@ router.get(
   candidateControllers.getJobById
 );
 
-router.post("/upload-resume", verifyToken, authorization("candidate"), uploader.single("pdf"), candidateControllers.uploadResume);
+// router.post("/upload-resume", verifyToken, authorization("candidate"), uploader.single("pdf"), candidateControllers.uploadResume);
 
 router.post(
   "/jobs/:id/apply",
